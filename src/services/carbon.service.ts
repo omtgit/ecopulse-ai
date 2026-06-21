@@ -417,7 +417,7 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
   let currentStreak = 0;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  let checkDate = new Date(today);
+  const checkDate = new Date(today);
 
   while (true) {
     const logsOnDate = await prisma.habitLog.count({
