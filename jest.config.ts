@@ -9,7 +9,7 @@ const config: Config = {
     "^@/(.*)$": "<rootDir>/src/$1",
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
-  setupFilesAfterSetup: ["<rootDir>/__tests__/setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/__tests__/setup.ts"],
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",
