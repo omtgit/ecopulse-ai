@@ -66,20 +66,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="border-y border-white/10 bg-black/20 py-10">
-        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6 text-center">
-          {[
-            { value: "12,400+", label: "Users Tracking" },
-            { value: "850 t", label: "CO₂ Saved" },
-            { value: "3,200+", label: "Challenges Completed" },
-            { value: "4.8★", label: "Average Rating" },
-          ].map((s) => (
-            <div key={s.label}>
-              <p className="text-3xl font-extrabold text-emerald-400">{s.value}</p>
-              <p className="text-sm text-gray-400 mt-1">{s.label}</p>
-            </div>
-          ))}
+      {/* Why it matters */}
+      <section className="border-y border-white/10 bg-black/20 py-12">
+        <div className="max-w-5xl mx-auto px-6">
+          <p className="text-center text-sm text-gray-500 uppercase tracking-widest mb-8">Why tracking your footprint matters</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            {[
+              { value: "4.7 t", label: "Average CO₂ per person/year (UK)", sub: "Source: Our World in Data" },
+              { value: "< 2 t", label: "Target needed to limit warming to 1.5°C", sub: "Source: IPCC 2023" },
+              { value: "↓ 60%", label: "Reduction each of us needs to make", sub: "Small daily actions add up fast" },
+            ].map((s) => (
+              <div key={s.label}>
+                <p className="text-4xl font-extrabold text-emerald-400 mb-2">{s.value}</p>
+                <p className="text-sm font-medium text-white mb-1">{s.label}</p>
+                <p className="text-xs text-gray-500">{s.sub}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
