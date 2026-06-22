@@ -168,7 +168,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-8 px-6 text-center text-gray-500 text-sm">
-        <p>© 2025 EcoPulse AI. Built with 💚 for the planet.</p>
+        <p>© 2026 EcoPulse AI. Built with 💚 for the planet.</p>
       </footer>
     </div>
   );

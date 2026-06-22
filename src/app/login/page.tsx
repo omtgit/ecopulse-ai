@@ -1,10 +1,8 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -13,29 +11,40 @@ export default function LoginPage() {
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    setLoading(true);
 
     if (!email || !password) {
-      setError("Please fill in all fields.");
-      setLoading(false);
+      setError("Please fill in your email and password.");
       return;
     }
 
-    // Check against stored accounts in localStorage
-    const stored = localStorage.getItem("ecopulse_users");
-    const users: { name: string; email: string; password: string }[] = stored
-      ? JSON.parse(stored)
-      : [];
+    setLoading(true);
 
-    const match = users.find(
-      (u) => u.email === email && u.password === password
-    );
+    try {
+      const stored = localStorage.getItem("ecopulse_users");
+      const users: { name: string; email: string; password: string }[] = stored
+        ? JSON.parse(stored)
+        : [];
 
-    if (match) {
-      localStorage.setItem("ecopulse_session", JSON.stringify({ name: match.name, email: match.email }));
-      router.push("/dashboard");
-    } else {
-      setError("Invalid email or password. Please check your details or register first.");
+      const match = users.find(
+        (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+      );
+
+      if (match) {
+        localStorage.setItem(
+          "ecopulse_session",
+          JSON.stringify({ name: match.name, email: match.email })
+        );
+        window.location.href = "/dashboard";
+      } else {
+        setError(
+          users.length === 0
+            ? "No account found. Please register first."
+            : "Incorrect email or password. Please try again."
+        );
+        setLoading(false);
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
       setLoading(false);
     }
   }
@@ -45,7 +54,7 @@ export default function LoginPage() {
       "ecopulse_session",
       JSON.stringify({ name: "Demo User", email: "demo@ecopulse.ai" })
     );
-    router.push("/dashboard");
+    window.location.href = "/dashboard";
   }
 
   return (
@@ -62,7 +71,7 @@ export default function LoginPage() {
             </span>
           </Link>
           <h1 className="text-3xl font-bold text-white mb-2">Welcome back</h1>
-          <p className="text-gray-400">Sign in to your account to continue</p>
+          <p className="text-gray-400">Sign in to continue to your dashboard</p>
         </div>
 
         {/* Card */}
@@ -77,7 +86,7 @@ export default function LoginPage() {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
               />
             </div>
             <div>
@@ -89,7 +98,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
               />
             </div>
 
@@ -102,9 +111,9 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-xl font-semibold transition-all shadow-lg shadow-emerald-500/25 disabled:opacity-60"
+              className="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-xl font-semibold transition-all shadow-lg shadow-emerald-500/25 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "Redirecting to dashboard..." : "Sign In"}
             </button>
           </form>
 
@@ -117,10 +126,11 @@ export default function LoginPage() {
 
           {/* Demo shortcut */}
           <div className="mt-4 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center">
-            <p className="text-sm text-emerald-400 font-medium mb-2">🚀 Just want to explore?</p>
+            <p className="text-sm text-emerald-400 font-medium mb-2">🚀 Want to explore without registering?</p>
             <button
+              type="button"
               onClick={handleDemoLogin}
-              className="text-sm text-emerald-300 hover:text-emerald-200 underline cursor-pointer"
+              className="text-sm text-white bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg font-medium transition-all"
             >
               Enter as Demo User →
             </button>
@@ -128,7 +138,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-gray-600 text-xs mt-6">
-          © 2025 EcoPulse AI. All rights reserved.
+          © 2026 EcoPulse AI. All rights reserved.
         </p>
       </div>
     </div>
