@@ -52,8 +52,8 @@ async function main() {
   // Give user some badges
   await prisma.userBadge.createMany({
     data: [
-      { userId: user1.id, badgeId: badges[0].id },
-      { userId: user1.id, badgeId: badges[1].id },
+      { userId: user1.id, badgeId: badges[0]!.id },
+      { userId: user1.id, badgeId: badges[1]!.id },
     ]
   });
 
@@ -70,8 +70,8 @@ async function main() {
 
   await prisma.userChallenge.createMany({
     data: [
-      { userId: user1.id, challengeId: challenges[0].id, startDate: new Date(Date.now() - 2 * 24*60*60*1000), endDate: new Date(Date.now() - 1 * 24*60*60*1000), status: "COMPLETED", progress: 100, completedAt: new Date() },
-      { userId: user1.id, challengeId: challenges[1].id, startDate: new Date(), endDate: new Date(Date.now() + 1 * 24*60*60*1000), status: "ACTIVE", progress: 0 }
+      { userId: user1.id, challengeId: challenges[0]!.id, startDate: new Date(Date.now() - 2 * 24*60*60*1000), endDate: new Date(Date.now() - 1 * 24*60*60*1000), status: "COMPLETED", progress: 100, completedAt: new Date() },
+      { userId: user1.id, challengeId: challenges[1]!.id, startDate: new Date(), endDate: new Date(Date.now() + 1 * 24*60*60*1000), status: "ACTIVE", progress: 0 }
     ]
   });
 
