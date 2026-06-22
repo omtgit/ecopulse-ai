@@ -25,7 +25,7 @@ const config: Config = {
     "!src/**/index.ts",
     "!src/app/api/**",
   ],
-  coverageThresholds: {
+  coverageThreshold: {
     global: {
       branches: 70,
       functions: 70,
